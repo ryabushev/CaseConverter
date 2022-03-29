@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+<div class="title">Case Converter</div>
+<textarea id="textarea">
+</textarea>
+<div>
+    <button id="upper-case">Upper Case</button>
+    <button id="lower-case">Lower Case</button>
+    <button id="proper-case">Proper Case</button>
+    <button id="sentence-case">Sentence Case</button>
+    <button id="save-text-file">Save Text File</button>
+</div>
+<script>
+    document.getElementById("upper-case").addEventListener("click", function(){
+        let text = document.querySelector("textarea").value;
+        document.getElementById("textarea").value = text.toUpperCase();});
+
+    document.getElementById("lower-case").addEventListener("click", function(){
+        let text = document.querySelector("textarea").value;
+        document.getElementById("textarea").value = text.toLowerCase();});
+
+    document.getElementById("proper-case").addEventListener("click", function(){
+        let text = document.querySelector("textarea").value.toLowerCase();
+        let textArr = text.split(" ");
+        text = "";
+        for (let i = 0; i < textArr.length; i++) {
+            let word = textArr[i];
+            let First = word.substring(0, 1).toUpperCase();
+            let Leftovers = word.substring(1, word.length)
+            text += First + Leftovers + " ";
+        }
+        document.getElementById("textarea").value = text.trim();
+
+    });
+
+    document.getElementById("sentence-case").addEventListener("click", function(){
+        let text = document.querySelector("textarea").value.toLowerCase();
+        let textArr = text.split(". ");
+        text = "";
+        for (let i = 0; i < textArr.length; i++) {
+            let word = textArr[i];
+            let First = word.substring(0, 1).toUpperCase();
+            let Leftovers = word.substring(1, word.length);
+            textArr[i] = First + Leftovers;
+            text += textArr[i];
+        }
+        document.getElementById("textarea").value = textArr.join(". ");
+    });
+
+    document.getElementById("save-text-file").addEventListener("click", function(){
+        let text = document.getElementById("textarea").value;
+        let filename = "text.txt"
+        download(filename ,text);
+    }, false);
+
+    function download(filename, text) {
+        let element = document.createElement('a');
+        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+        element.setAttribute('download', filename);
+
+        element.style.display = 'none';
+        document.body.appendChild(element);
+
+        element.click();
+
+        document.body.removeChild(element);
+    }
+
+</script>
+</body>
+</html>
